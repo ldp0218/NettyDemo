@@ -18,12 +18,15 @@ import io.netty.channel.ChannelOption;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.SocketChannel;
 import io.netty.channel.socket.nio.NioSocketChannel;
+import io.netty.handler.timeout.IdleStateHandler;
 import io.netty.handler.timeout.ReadTimeoutHandler;
 
 /**
  * Created by ldp on 2015/11/1.
  */
 public class NettyClient {
+    // 多长时间未请求后，发送心跳
+    private static final int WRITE_WAIT_SECONDS = 5;
     private ScheduledExecutorService executor = Executors.newScheduledThreadPool(1);
     private NioEventLoopGroup group = new NioEventLoopGroup();
     public void connect(String host, int port) throws Exception {
@@ -39,6 +42,7 @@ public class NettyClient {
                                     .addLast("MessageEncoder", new NettyMessageEncoder())
                                     .addLast("ReadTimeoutHandler", new ReadTimeoutHandler(50))
                                     .addLast("LoginAuthHandler", new LoginAuthReqHandler())
+                                    .addLast("ping", new IdleStateHandler(0, WRITE_WAIT_SECONDS, 0, TimeUnit.SECONDS))
                                     .addLast("HeartBeatHandler", new HeartBeatReqHandler());
                         }
                     });
