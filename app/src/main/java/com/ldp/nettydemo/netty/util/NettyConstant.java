@@ -19,7 +19,7 @@ package com.ldp.nettydemo.netty.util;
  * Created by ldp on 2015/11/1.
  */
 public final class NettyConstant {
-    public static final String REMOTEIP = "192.168.1.100";
+    public static final String REMOTEIP = "192.168.3.3";
     public static final int PORT = 8080;
     public static final String LOCALIP = "127.0.0.1";
     public static final int LOCAL_PORT = 12088;
