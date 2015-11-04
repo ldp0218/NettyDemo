@@ -23,7 +23,7 @@ public class HeartBeatReqHandler extends ChannelHandlerAdapter {
     // 定义客户端没有收到服务端的pong消息的最大次数
     private static final int MAX_UN_REC_PONG_TIMES = 3;
     // 隔N秒后重连
-    private static final int RE_CONN_WAIT_SECONDS = 5;
+    private static final int RE_CONN_WAIT_SECONDS = 30;
 
     @Override
     public void channelRead(ChannelHandlerContext ctx, Object msg)

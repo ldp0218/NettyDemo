@@ -26,7 +26,9 @@ import io.netty.handler.timeout.ReadTimeoutHandler;
  */
 public class NettyClient {
     // 多长时间未请求后，发送心跳
-    private static final int WRITE_WAIT_SECONDS = 5;
+    private static final int WRITE_WAIT_SECONDS = 30;
+    // 隔N秒后重连
+    private static final int RE_CONN_WAIT_SECONDS = 30;
     private ScheduledExecutorService executor = Executors.newScheduledThreadPool(1);
     private NioEventLoopGroup group = new NioEventLoopGroup();
     public void connect(String host, int port) throws Exception {
@@ -55,7 +57,7 @@ public class NettyClient {
                 @Override
                 public void run() {
                     try {
-                        TimeUnit.SECONDS.sleep(1);
+                        TimeUnit.SECONDS.sleep(RE_CONN_WAIT_SECONDS);
                         connect(NettyConstant.REMOTEIP, NettyConstant.PORT);    //发起重连操作
                     } catch (InterruptedException e) {
                         e.printStackTrace();
